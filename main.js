@@ -5,11 +5,14 @@ const menuHamIcon = document.querySelector('.menu');
 const mobileMenu  = document.querySelector('.mobile-menu');  
 
 const menuCarIcon = document.querySelector('.navbar-shopping-cart');
-const aside = document.querySelector('.product-detail');
+const aside = document.querySelector('.product-card-detail');
+
+const productDetail  = document.querySelector('.product-detail-info');
+const closePrdDetail = document.querySelector('.product-detail-close');
 
 const cardsContainer = document.querySelector('.cards-container');
 
-let elementClassName = ['.desktop-menu', '.mobile-menu', '.product-detail'];
+let elementClassName = ['.desktop-menu', '.mobile-menu', '.product-card-detail', '.product-detail-info'];
 
 menuEmail.addEventListener('click', toggleDesktopMenu);
 function toggleDesktopMenu (){
@@ -23,15 +26,32 @@ function toggleMobileMenu () {
 
 menuCarIcon.addEventListener('click', todgleCarAside);
 function todgleCarAside () {
-    inactiveComponents('.product-detail');
+    inactiveComponents('.product-card-detail');
 };
+
+function openProductDetail(){
+    openComponent(productDetail);
+}
+
+closePrdDetail.addEventListener('click', closeProductDetail);
+function closeProductDetail(){
+    inactiveComponents();
+}
+
+function closeComponent(element){
+    element.classList.add('inactive');   
+}
+
+function openComponent(element){
+    element.classList.remove('inactive');
+}
 
 function inactiveComponents(className){  
     for (let i = 0; i < elementClassName.length; i++ ){           
         const element = document.querySelector(elementClassName[i]);
         if (elementClassName[i] != className) {
             if (!element.classList.contains('inactive')) {
-                element.classList.add('inactive');
+                closeComponent(element);   
             }            
         } else{
             element.classList.toggle('inactive');
@@ -78,6 +98,8 @@ function rederProducts(arr){
     
         const productImg = document.createElement('img');
         productImg.setAttribute('src', product.image);
+
+        productImg.addEventListener('click', openProductDetail);
     
         const productInfo = document.createElement('div');
         productInfo.classList.add('product-info');
@@ -104,7 +126,7 @@ function rederProducts(arr){
         productCard.appendChild(productInfo);
     
         cardsContainer.appendChild(productCard);
-    }
+    }   
 
 }
 
